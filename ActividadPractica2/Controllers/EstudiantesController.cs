@@ -67,7 +67,21 @@ namespace ActividadPractica2.Controllers
             registroExistente.Promedio = actualizar.Promedio;
             registroExistente.Activo = actualizar.Activo;
 
-            return NoContent(); // 204 NoContent solicitado
+            return NoContent(); // 204 NoContent
+        }
+
+        //DELETE /api/estudiantes/{id}
+        [HttpDelete("{id:int}")]
+        public IActionResult EliminarEstudiante(int id)
+        {
+            var eliminarEstudiante = _estudiantesMemoria.FirstOrDefault(e => e.Id == id);
+            if (eliminarEstudiante == null)
+            {
+                return NotFound(new { mensaje = "Estudiante no se puede eliminar porque no existe." });
+            }
+
+            _estudiantesMemoria.Remove(eliminarEstudiante);
+            return NoContent(); // 204 NoContent
         }
     }
 }
