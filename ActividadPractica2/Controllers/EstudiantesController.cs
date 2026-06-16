@@ -14,5 +14,11 @@ namespace ActividadPractica2.Controllers
             new Estudiante { Id = 3, Nombre = "Lucas", Apellido = "Díaz", Correo = "lucas.d@ufhec.edu.do", Carrera = "Ingeniería de Sistemas", Edad = 21, Promedio = 64.5m, Activo = false }
         };
 
+        //GET /api/estudiantes
+        [HttpGet]
+        public IActionResult ListaCompleta()
+        {
+            return Ok(_estudiantesMemoria);
+        }
     }
 }
