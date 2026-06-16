@@ -20,5 +20,17 @@ namespace ActividadPractica2.Controllers
         {
             return Ok(_estudiantesMemoria);
         }
+
+        //GET /api/estudiantes/{id}
+        [HttpGet("{id:int}")]
+        public IActionResult ObtenerEstudiantePorId(int id)
+        {
+            var alumnoId = _estudiantesMemoria.FirstOrDefault(e => e.Id == id);
+            if (alumnoId == null)
+            {
+                return NotFound(new { mensaje = "Estudiante no existe (404 Not Found)." });
+            }
+            return Ok(alumnoId);
+        }
     }
 }
