@@ -48,5 +48,26 @@ namespace ActividadPractica2.Controllers
             _estudiantesMemoria.Add(nuevo);
             return CreatedAtAction(nameof(ObtenerEstudiantePorId), new { id = nuevo.Id }, nuevo);
         }
+
+        //PUT /api/estudiantes/{id}
+        [HttpPut("{id:int}")]
+        public IActionResult ActualizarEstudiante(int id, [FromBody] Estudiante actualizar)
+        {
+            var registroExistente = _estudiantesMemoria.FirstOrDefault(e => e.Id == id);
+            if (registroExistente == null)
+            {
+                return NotFound(new { mensaje = "Estudiante no encontrado para actualizar (404 Not Found)." });
+            }
+
+            registroExistente.Nombre = actualizar.Nombre;
+            registroExistente.Apellido = actualizar.Apellido;
+            registroExistente.Correo = actualizar.Correo;
+            registroExistente.Carrera = actualizar.Carrera;
+            registroExistente.Edad = actualizar.Edad;
+            registroExistente.Promedio = actualizar.Promedio;
+            registroExistente.Activo = actualizar.Activo;
+
+            return NoContent(); // 204 NoContent solicitado
+        }
     }
 }
