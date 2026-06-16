@@ -32,5 +32,21 @@ namespace ActividadPractica2.Controllers
             }
             return Ok(alumnoId);
         }
+
+        //POST /api/estudiantes
+        [HttpPost]
+        public IActionResult AgregarEstudiante([FromBody] Estudiante nuevo)
+        {
+            if (nuevo == null)
+            {
+                return BadRequest(new { mensaje = "Datos inválidos" });
+            }
+
+            int nuevoId = _estudiantesMemoria.Any() ? _estudiantesMemoria.Max(e => e.Id) + 1 : 1;
+            nuevo.Id = nuevoId;
+
+            _estudiantesMemoria.Add(nuevo);
+            return CreatedAtAction(nameof(ObtenerEstudiantePorId), new { id = nuevo.Id }, nuevo);
+        }
     }
 }
