@@ -117,5 +117,13 @@ namespace ActividadPractica2.Controllers
             estadoEstudiante.Activo = activo;
             return NoContent(); // 204 NoContent
         }
+
+        //GET /api/estudiantes/activos
+        [HttpGet("activos")]
+        public IActionResult ObtenerActivos()
+        {
+            var estudiantesActivos = _estudiantesMemoria.Where(e => e.Activo).ToList();
+            return Ok(estudiantesActivos);
+        }
     }
 }
