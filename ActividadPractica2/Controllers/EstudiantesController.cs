@@ -83,5 +83,25 @@ namespace ActividadPractica2.Controllers
             _estudiantesMemoria.Remove(eliminarEstudiante);
             return NoContent(); // 204 NoContent
         }
+
+        //GET /api/estudiantes/estadisticas
+        [HttpGet("estadisticas")]
+        public IActionResult MetricasGenerales()
+        {
+            if (!_estudiantesMemoria.Any())
+            {
+                return Ok(new { totalCantidad = 0, mensaje = "No hay datos registrados." });
+            }
+
+            return Ok(new
+            {
+                totalCantidad = _estudiantesMemoria.Count,
+                cantidadAprobados = _estudiantesMemoria.Count(e => e.Promedio >= 70),
+                cantidadReprobados = _estudiantesMemoria.Count(e => e.Promedio < 70),
+                promedioGeneral = Math.Round(_estudiantesMemoria.Average(e => e.Promedio), 2),
+                mejorPromedio = _estudiantesMemoria.Max(e => e.Promedio),
+                peorPromedio = _estudiantesMemoria.Min(e => e.Promedio)
+            });
+        }
     }
 }
