@@ -90,7 +90,7 @@ namespace ActividadPractica2.Controllers
         {
             if (!_estudiantesMemoria.Any())
             {
-                return Ok(new { totalCantidad = 0, mensaje = "No hay datos registrados." });
+                return Ok(new { totalCantidad = 0, mensaje = "No hay registro" });
             }
 
             return Ok(new
@@ -102,6 +102,20 @@ namespace ActividadPractica2.Controllers
                 mejorPromedio = _estudiantesMemoria.Max(e => e.Promedio),
                 peorPromedio = _estudiantesMemoria.Min(e => e.Promedio)
             });
+        }
+
+        //PUT /api/estudiantes/{id}/estado?activo=false
+        [HttpPut("{id:int}/estado")]
+        public IActionResult CambiarEstado(int id, [FromQuery] bool activo)
+        {
+            var estadoEstudiante = _estudiantesMemoria.FirstOrDefault(e => e.Id == id);
+            if (estadoEstudiante == null)
+            {
+                return NotFound(new { mensaje = "Estudiante no encontrado" });
+            }
+
+            estadoEstudiante.Activo = activo;
+            return NoContent(); // 204 NoContent
         }
     }
 }
