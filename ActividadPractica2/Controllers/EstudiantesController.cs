@@ -171,20 +171,6 @@ namespace ActividadPractica2.Controllers
             return NoContent(); // 204 NoContent
         }
 
-        //DELETE /api/estudiantes/{id}
-        [HttpDelete("{id:int}")]
-        public IActionResult EliminarEstudiante(int id)
-        {
-            var eliminarEstudiante = _estudiantesMemoria.FirstOrDefault(e => e.Id == id);
-            if (eliminarEstudiante == null)
-            {
-                return NotFound(new { mensaje = "Estudiante no se puede eliminar porque no existe." });
-            }
-
-            _estudiantesMemoria.Remove(eliminarEstudiante);
-            return NoContent(); // 204 NoContent
-        }
-
         //PUT /api/estudiantes/{id}/estado?activo=false
         [HttpPut("{id:int}/estado")]
         public IActionResult CambiarEstado(int id, [FromQuery] bool activo)
@@ -196,6 +182,20 @@ namespace ActividadPractica2.Controllers
             }
 
             estadoEstudiante.Activo = activo;
+            return NoContent(); // 204 NoContent
+        }
+
+        //DELETE /api/estudiantes/{id}
+        [HttpDelete("{id:int}")]
+        public IActionResult EliminarEstudiante(int id)
+        {
+            var eliminarEstudiante = _estudiantesMemoria.FirstOrDefault(e => e.Id == id);
+            if (eliminarEstudiante == null)
+            {
+                return NotFound(new { mensaje = "Estudiante no se puede eliminar porque no existe." });
+            }
+
+            _estudiantesMemoria.Remove(eliminarEstudiante);
             return NoContent(); // 204 NoContent
         }
 
