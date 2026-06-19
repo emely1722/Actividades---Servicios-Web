@@ -14,7 +14,7 @@ namespace ActividadPractica2.Controllers
             new Estudiante { Id = 3, Nombre = "Lucas", Apellido = "Díaz", Correo = "lucas.d@ufhec.edu.do", Carrera = "Ingeniería de Sistemas", Edad = 21, Promedio = 64.5m, Activo = false }
         };
 
-        //GET /api/estudiantes
+        //GET /api/estudiantes/ListaCompleta
         [HttpGet]
         public IActionResult ListaCompleta()
         {
@@ -31,6 +31,23 @@ namespace ActividadPractica2.Controllers
                 return NotFound(new { mensaje = "Estudiante no existe (404 Not Found)." });
             }
             return Ok(alumnoId);
+        }
+
+        //GET /api/estudiantes/BuscarEstudiante
+        [HttpGet("BuscarEstudiante")]
+        public IActionResult BuscarEstudiantes([FromQuery] string texto)
+        {
+            if (string.IsNullOrWhiteSpace(texto))
+            {
+                return Ok(_estudiantesMemoria);
+            }
+
+            var buscarTexto = _estudiantesMemoria.Where(e =>
+                e.Nombre.Contains(texto, StringComparison.OrdinalIgnoreCase) ||
+                e.Apellido.Contains(texto, StringComparison.OrdinalIgnoreCase)
+            ).ToList();
+
+            return Ok(buscarTexto);
         }
 
         //POST /api/estudiantes
