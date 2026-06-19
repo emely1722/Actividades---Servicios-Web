@@ -69,6 +69,31 @@ namespace ActividadPractica2.Controllers
             return Ok(aprobados);
         }
 
+        //GET /api/estudiantes/ordenar?por=promedio&direccion=desc
+        [HttpGet("ordenar")]
+        public IActionResult OrdenarEstudiantes([FromQuery] string por, [FromQuery] string direccion = "asc")
+        {
+            var ordenados = _estudiantesMemoria.AsEnumerable();
+            bool descendente = direccion.Equals("desc", StringComparison.OrdinalIgnoreCase);
+
+            string texto = por?.ToLower() ?? "";
+
+            if (texto == "nombre")
+            {
+                ordenados = descendente ? ordenados.OrderByDescending(e => e.Nombre) : ordenados.OrderBy(e => e.Nombre);
+            }
+            else if (texto == "promedio")
+            {
+                ordenados = descendente ? ordenados.OrderByDescending(e => e.Promedio) : ordenados.OrderBy(e => e.Promedio);
+            }
+            else if (texto == "edad")
+            {
+                ordenados = descendente ? ordenados.OrderByDescending(e => e.Edad) : ordenados.OrderBy(e => e.Edad);
+            }
+
+            return Ok(ordenados.ToList());
+        }
+
         //POST /api/estudiantes
         [HttpPost]
         public IActionResult AgregarEstudiante([FromBody] Estudiante nuevo)
