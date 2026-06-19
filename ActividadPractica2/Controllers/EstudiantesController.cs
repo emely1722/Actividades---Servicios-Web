@@ -50,7 +50,7 @@ namespace ActividadPractica2.Controllers
             return Ok(buscarTexto);
         }
 
-        //GET /api/estudiantes/carrera/{carrera}
+        //GET /api/estudiantes/{carrera}
         [HttpGet("{carrera}")]
         public IActionResult ObtenerCarrera(string carrera)
         {
@@ -59,6 +59,14 @@ namespace ActividadPractica2.Controllers
             ).ToList();
 
             return Ok(carreraEstudiante);
+        }
+
+        //GET /api/estudiantes/aprobados?promedioMinimo=70
+        [HttpGet("aprobados")]
+        public IActionResult ObtenerAprobados([FromQuery] decimal promedioMinimo = 70)
+        {
+            var aprobados = _estudiantesMemoria.Where(e => e.Promedio >= promedioMinimo).ToList();
+            return Ok(aprobados);
         }
 
         //POST /api/estudiantes
