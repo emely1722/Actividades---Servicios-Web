@@ -126,6 +126,14 @@ namespace ActividadPractica2.Controllers
             });
         }
 
+        //GET /api/estudiantes/activos
+        [HttpGet("activos")]
+        public IActionResult ObtenerActivos()
+        {
+            var estudiantesActivos = _estudiantesMemoria.Where(e => e.Activo).ToList();
+            return Ok(estudiantesActivos);
+        }
+
         //POST /api/estudiantes
         [HttpPost]
         public IActionResult AgregarEstudiante([FromBody] Estudiante nuevo)
@@ -191,12 +199,5 @@ namespace ActividadPractica2.Controllers
             return NoContent(); // 204 NoContent
         }
 
-        //GET /api/estudiantes/activos
-        [HttpGet("activos")]
-        public IActionResult ObtenerActivos()
-        {
-            var estudiantesActivos = _estudiantesMemoria.Where(e => e.Activo).ToList();
-            return Ok(estudiantesActivos);
-        }
     }
 }
