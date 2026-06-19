@@ -94,6 +94,17 @@ namespace ActividadPractica2.Controllers
             return Ok(ordenados.ToList());
         }
 
+        //GET /api/estudiantes/rango?promedioDesde=70&promedioHasta=90
+        [HttpGet("rango")]
+        public IActionResult ObtenerRango([FromQuery] decimal desde, [FromQuery] decimal hasta)
+        {
+            var filtro = _estudiantesMemoria.Where(e =>
+                e.Promedio >= desde && e.Promedio <= hasta
+            ).ToList();
+
+            return Ok(filtro);
+        }
+
         //POST /api/estudiantes
         [HttpPost]
         public IActionResult AgregarEstudiante([FromBody] Estudiante nuevo)
