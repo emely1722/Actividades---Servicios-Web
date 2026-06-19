@@ -50,6 +50,17 @@ namespace ActividadPractica2.Controllers
             return Ok(buscarTexto);
         }
 
+        //GET /api/estudiantes/carrera/{carrera}
+        [HttpGet("{carrera}")]
+        public IActionResult ObtenerCarrera(string carrera)
+        {
+            var carreraEstudiante = _estudiantesMemoria.Where(e =>
+                e.Carrera.Equals(carrera, StringComparison.OrdinalIgnoreCase)
+            ).ToList();
+
+            return Ok(carreraEstudiante);
+        }
+
         //POST /api/estudiantes
         [HttpPost]
         public IActionResult AgregarEstudiante([FromBody] Estudiante nuevo)
