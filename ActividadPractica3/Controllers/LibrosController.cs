@@ -67,7 +67,48 @@ namespace ActividadPractica3.Controllers
             var datos = await consulta.Skip((pagina - 1) * tamanoPagina).Take(tamanoPagina).ToListAsync();
 
             return Ok(new { totalRegistros = total, pagina, tamanoPagina, datos });
+
         }
 
+        // POST: api/libros
+        [HttpPost]
+        public async Task<ActionResult<Libro>> Post(Libro libro)
+        {
+            var autorexiste = await _context.Autores.AnyAsync(a => a.Id == libro.AutorId);
+            if (!autorexiste) return BadRequest(new { msg = "El Autor no existe" });
+
+            _context.Libros.Add(libro);
+            await _context.SaveChangesAsync();
+            return CreatedAtAction(nameof(GetPorId), new { id = libro.Id }, libro);
+        }
+
+        // PUT: api/libros/{id}
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> Put(int id, Libro libro)
+        {
+            if (id != libro.Id) return BadRequest(new { msg = "ID no coincide" });
+
+            var existe = await _context.Libros.AnyAsync(l => l.Id == id);
+            if (!existe) return NotFound(new { msg = "Libro no encontrado" });
+
+            var autorExiste = await _context.Autores.AnyAsync(a => a.Id == libro.AutorId);
+            if (!autorExiste) return BadRequest(new { msg = "El Autor no existe" });
+
+            _context.Entry(libro).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+
+        // DELETE: api/libros/{id}
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var libro = await _context.Libros.FindAsync(id);
+            if (libro == null) return NotFound(new { msg = "Libro no encontrado" });
+
+            _context.Libros.Remove(libro);
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
     }
 }
