@@ -12,7 +12,7 @@ namespace ActividadPractica3.Models
 
         [Required(ErrorMessage = "Año publicación requerido")]
         [Range(1450, 2100, ErrorMessage = "Debe estar entre 1400-2100")]
-        public int Publicacion { get; set; }
+        public int AnioPublicacion { get; set; }
 
         [Required(ErrorMessage = "Género requerido")]
         [StringLength(50, ErrorMessage = "Debe tener dentro de 50 caracteres")]

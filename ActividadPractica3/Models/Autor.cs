@@ -16,6 +16,6 @@ namespace ActividadPractica3.Models
 
         [Required(ErrorMessage = "Año nacimiento requerido")]
         [Range(1500, 2100, ErrorMessage = "Debe estar entre 1500-2100")]
-        public int Nacimiento { get; set; }
+        public int AnioNacimiento { get; set; }
     }
 }
