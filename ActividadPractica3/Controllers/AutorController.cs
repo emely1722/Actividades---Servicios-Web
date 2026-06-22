@@ -34,7 +34,7 @@ namespace ActividadPractica3.Controllers
             return autor;
         }
 
-        // GET: api/autores/paginado?
+        // GET: api/autores/paginado
         [HttpGet("paginado")]
         public async Task<IActionResult> GetPaginado(
             [FromQuery] int pagina = 1,
