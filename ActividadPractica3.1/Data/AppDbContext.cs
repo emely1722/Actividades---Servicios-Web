@@ -1,6 +1,15 @@
-﻿namespace ActividadPractica3._1.Data
+﻿using Microsoft.EntityFrameworkCore;
+using ActividadPractica3._1.Models;
+using System.Collections.Generic;
+
+namespace ActividadPractica3._1.Data
 {
-    public class AppDbContext
+    public class AppDbContext : DbContext
     {
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+        {
+        }
+
+        public DbSet<Libro> Libros { get; set; }
     }
 }
