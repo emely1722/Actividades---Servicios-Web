@@ -9,6 +9,17 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Configuración de la política de CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("PermitirTodo", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -16,7 +27,7 @@ builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition("ApiKey", new OpenApiSecurityScheme
     {
-        Description = "Ingresa la API Key en la cabecera. Ejemplo: UFHEC_INF4318_SecretKey",
+        Description = "Ingresa la API Key. Ejemplo: ContraseñaparalaApiBiblioteca___2026",
         In = ParameterLocation.Header,
         Name = "X-API-Key",
         Type = SecuritySchemeType.ApiKey,
@@ -42,7 +53,7 @@ builder.Services.AddSwaggerGen(options =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configure the HTTP request pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -50,6 +61,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("PermitirTodo");
 
 app.UseAuthorization();
 

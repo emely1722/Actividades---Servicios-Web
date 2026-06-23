@@ -22,7 +22,7 @@ namespace ActividadPractica3.Seguridad
             var config = context.HttpContext.RequestServices.GetRequiredService<IConfiguration>();
             var apiKey = config["ApiKey"];
 
-            if (string.IsNullOrEmpty(apiKey) || !apiKey.Equals(Apikeyextraida))
+            if (string.IsNullOrEmpty(apiKey) || !apiKey.Equals(Apikeyextraida.ToString()))
             {
                 context.Result = new ContentResult
                 {
