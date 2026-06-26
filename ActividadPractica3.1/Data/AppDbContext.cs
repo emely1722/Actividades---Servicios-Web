@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ActividadPractica3._1.Models;
-using System.Collections.Generic;
 
 namespace ActividadPractica3._1.Data
 {
@@ -10,6 +9,6 @@ namespace ActividadPractica3._1.Data
         {
         }
 
-        public DbSet<Libro> Libros { get; set; }
+        public DbSet<Libro> Libros { get; set; } = null!;
     }
 }

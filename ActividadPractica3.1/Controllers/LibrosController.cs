@@ -16,16 +16,16 @@ namespace ActividadPractica3._1.Controllers
             _context = context;
         }
 
-        // 1. GET: /api/libros (paginación)
+        //GET: /api/libros (paginado)
         [HttpGet]
         public async Task<IActionResult> ObtenerTodos([FromQuery] int pagina = 1, [FromQuery] int cantidad = 10)
         {
             if (pagina <= 0) pagina = 1;
-            if (cantidad <= 0 || cantidad > 100) cantidad = 10;
+            if (cantidad <= 0 || cantidad > 50) cantidad = 10;
 
             var totalRegistros = await _context.Libros.CountAsync();
 
-            var registros = await _context.Libros
+            var datos = await _context.Libros
                 .Skip((pagina - 1) * cantidad)
                 .Take(cantidad)
                 .ToListAsync();
@@ -35,40 +35,33 @@ namespace ActividadPractica3._1.Controllers
                 Total = totalRegistros,
                 PaginaActual = pagina,
                 CantidadPorPagina = cantidad,
-                Datos = registros
+                Datos = datos
             });
         }
 
-        // 2. GET: /api/libros/{id}
+        //GET: /api/libros/{id}
         [HttpGet("{id}")]
         public async Task<IActionResult> ObtenerPorId(int id)
         {
             var libro = await _context.Libros.FindAsync(id);
-
             if (libro == null)
             {
                 return NotFound();
             }
-
             return Ok(libro);
         }
 
-        // 3. POST: /api/libros
+        //POST: /api/libros
         [HttpPost]
         public async Task<IActionResult> Crear([FromBody] Libro nuevoLibro)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             _context.Libros.Add(nuevoLibro);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(ObtenerPorId), new { id = nuevoLibro.Id }, nuevoLibro);
         }
 
-        // 4. PUT: /api/libros/{id}
+        //PUT: /api/libros/{id}
         [HttpPut("{id}")]
         public async Task<IActionResult> Actualizar(int id, [FromBody] Libro libroActualizado)
         {
@@ -91,18 +84,17 @@ namespace ActividadPractica3._1.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                return StatusCode(500, "Error al actualizar registro.");
+                return StatusCode(500, "Error en actualizar");
             }
 
             return NoContent();
         }
 
-        // 5. DELETE: /api/libros/{id}
+        //DELETE: /api/libros/{id}
         [HttpDelete("{id}")]
         public async Task<IActionResult> Eliminar(int id)
         {
             var libro = await _context.Libros.FindAsync(id);
-
             if (libro == null)
             {
                 return NotFound();
