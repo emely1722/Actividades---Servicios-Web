@@ -74,7 +74,7 @@ namespace ActividadPractica3._1.Controllers
         {
             if (id != libroActualizado.Id)
             {
-                return BadRequest("El ID del parámetro no coincide con el cuerpo de la solicitud.");
+                return BadRequest("ID no coincide");
             }
 
             var existe = await _context.Libros.AnyAsync(x => x.Id == id);
@@ -91,7 +91,7 @@ namespace ActividadPractica3._1.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                return StatusCode(500, "Hubo un problema de concurrencia al actualizar el registro.");
+                return StatusCode(500, "Error al actualizar registro.");
             }
 
             return NoContent();
