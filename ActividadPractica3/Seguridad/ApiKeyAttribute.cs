@@ -11,10 +11,9 @@ namespace ActividadPractica3.Seguridad
         {
             if (!context.HttpContext.Request.Headers.TryGetValue(ApiName, out var Apikeyextraida))
             {
-                context.Result = new ContentResult
+                context.Result = new ObjectResult(new { msg = "Falta X-API-Key para acceder" })
                 {
-                    StatusCode = 401,
-                    Content = "Falta X-API-Key para acceder"
+                    StatusCode = 401
                 };
                 return;
             }
@@ -24,10 +23,9 @@ namespace ActividadPractica3.Seguridad
 
             if (string.IsNullOrEmpty(apiKey) || !apiKey.Equals(Apikeyextraida.ToString()))
             {
-                context.Result = new ContentResult
+                context.Result = new ObjectResult(new { msg = "Clave API Key incorrecta." })
                 {
-                    StatusCode = 401,
-                    Content = "Clave API Key incorrecta."
+                    StatusCode = 401
                 };
                 return;
             }

@@ -1,4 +1,7 @@
-CREATE DATABASE Biblioteca;
+IF DB_ID('Biblioteca') IS NULL
+BEGIN
+    CREATE DATABASE Biblioteca;
+END
 GO
 
 USE Biblioteca;
